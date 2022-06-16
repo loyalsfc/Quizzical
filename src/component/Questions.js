@@ -14,20 +14,20 @@ export default function QuestionPage(){
         .then(data => setAllQuestions({questions: data.results, isDataLoaded: true}))        
     }, [])
 
+    console.log(allQuestions.questions)
     
-    
-    // const question = allQuestions.map(items, ()=>{
+    // const question = allQuestions.map(item, ()=>{
     //         return(
-    //             <Question question={items.question} />
+    //             <Question question={item.question} />
     //         )
-    //     });
+    // });
     
     
 
     return(
         <section>
             Question page noni
-            {/* {question} */}
+            {/* {allQuestions.isDataLoaded && question} */}
         </section>
     )
 }
