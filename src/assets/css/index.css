@@ -7,10 +7,11 @@ main{
     height: 550px;
     width: 550px;
     background-color: #F5F7FB;
+    padding: 40px 77px; 
 }
 .welcome-page{
-    height: inherit;
-    width: inherit;
+    height: 100%;
+    width: 100%;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -47,4 +48,29 @@ section{
     color: #293264;
     font-weight: 700;
     margin-bottom: 12px;
+}
+.question--container{
+    margin-bottom: 15px;
+    border-bottom: 1px solid #DBDEF0;
+    padding-bottom: 15px;
+}
+.question--option{
+    padding: 7px 20px;
+    border: 2px solid #293264;
+    border-radius: 10px;
+    margin-right: 12px;
+    background-color: transparent;
+}
+.checkAnswer{
+    background-color: #293264;
+    border-radius: 10px;
+    padding: 10px;
+    color: #F5F7FB;
+    border: none;
+    font-size: 10px;
+    float: center;
+}
+.clicked{
+    background-color: #D6DBF5;
+    border: none;
 }

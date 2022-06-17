@@ -25,9 +25,9 @@ export default function Quiz(){
         "category":"Science: Mathematics",
         "type":"multiple",
         "difficulty":"easy",
-        "question":"The metric prefix &quot;atto-&quot; makes a measurement how much smaller than the base unit?",
-        "correct_answer":"One Quintillionth",
-        "incorrect_answers":["One Billionth","One Quadrillionth","One Septillionth"]
+        "question":"D in Bodmas stands for",
+        "correct_answer":"/",
+        "incorrect_answers":["*","-","+"]
     },
     {
         "category":"Science: Mathematics",
@@ -41,9 +41,9 @@ export default function Quiz(){
         "category":"Science: Mathematics",
         "type":"multiple",
         "difficulty":"easy",
-        "question":"What is the correct order of operations for solving equations?",
-        "correct_answer":"Parentheses, Exponents, Multiplication, Division, Addition, Subtraction",
-        "incorrect_answers":["Addition, Multiplication, Division, Subtraction, Addition, Parentheses","Parentheses, Exponents, Addition, Substraction, Multiplication, Division","The order in which the operations are written."]
+        "question":"Which of this is a prime number?",
+        "correct_answer":"7",
+        "incorrect_answers":["4","9","16"]
     }
 ]);
 
@@ -69,9 +69,11 @@ export default function Quiz(){
     }
     
     let questionsList = questions.map((item, index) => {
-        item.incorrect_answers.splice(Math.floor(Math.random() * 4), 0, item.correct_answer) 
+        if(!item.incorrect_answers.includes(item.correct_answer)){             
+            item.incorrect_answers.splice(Math.floor(Math.random() * 4), 0, item.correct_answer)
+        } 
         let options = item.incorrect_answers.map((item, index) => {
-            return(<button key={10+index}>{item}</button>)
+            return(<button key={10+index} className="question--option">{item}</button>)
         })
         return(
             <>
@@ -86,8 +88,8 @@ export default function Quiz(){
     
     function QuestionList(props){
         return(
-            <div>
-                <p>{props.question}</p>
+            <div className="question--container">
+                <p className="question">{props.question}</p>
                 {props.choice}
             </div>
         )
@@ -97,6 +99,8 @@ export default function Quiz(){
     return(
         <main>
             {!showQuestions ? <Welcome /> : questionsList}
+        
+            {showQuestions && <button className="checkAnswer">Check Answer</button>}
         </main>
     )
 }
