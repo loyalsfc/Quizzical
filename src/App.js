@@ -1,11 +1,13 @@
 import React from "react";
 import Quiz from "./component/Quiz";
-import DataFetching from "./component/DataFetching";
+import './index.css'
+import DataFetching from "./component/Answer";
+import QuizPage from "./page/QuizPage";
 
 function App() {
   return (
     <div className="App">
-      <Quiz />
+      <QuizPage/>
     {/* <DataFetching /> */}
     </div>
   );

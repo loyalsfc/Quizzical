@@ -1,8 +1,10 @@
-import React from "react";
-import '../assets/css/index.css'
+import React, {useState} from "react";
+// import '../assets/css/index.css'
 
 export default function Quiz(){
     const [showQuestions, setShowQuestions] = React.useState(false);
+    const [answers, setAnswers] = useState({});
+    const [currentQuestion, setCurrentQuestion] = useState(0);
     const [questions, setQuestions] = React.useState([
     {
         "category":"Science: Mathematics",
@@ -62,23 +64,49 @@ export default function Quiz(){
             <div>
                 <h3 className="main--title">Quizzical</h3>
                 <p className="main--description">Test your knowledge on sport</p>
-                <button className="main-button" onClick={startQuiz}>Start quiz</button>
+                <button className="main-button underline" onClick={startQuiz}>Start quiz</button>
             </div>
         </div>
         )
+    }
+
+    function selected(e){
+        const { name, value } = e.target
+        setAnswers({...answers, [name]: value})
+        // const question = e.target.attributes['data-question'].value
+        // document.querySelectorAll(`.question-${question}`).forEach(item=>{
+        //     item.classList.remove('clicked')
+        // })
+        // e.currentTarget.classList.add('clicked')
+    }
+
+    function handleNextClick(){
+        setCurrentQuestion(currentQuestion + 1);
     }
     
     let questionsList = questions.map((item, index) => {
         if(!item.incorrect_answers.includes(item.correct_answer)){             
             item.incorrect_answers.splice(Math.floor(Math.random() * 4), 0, item.correct_answer)
         } 
-        let options = item.incorrect_answers.map((item, index) => {
-            return(<button key={10+index} className="question--option">{item}</button>)
+        let options = item.incorrect_answers.map((option, optionIndex) => {
+            return(
+                    <div key={"Opt" + optionIndex} className="options-wrapper">
+                        <input type="radio" name={`question-${index}`} id={`option-${index}-${optionIndex}`} />
+                        <label  
+                            className={`question--option question-${index}`}
+                            onClick={selected}
+                            htmlFor={`option-${index}-${optionIndex}`}
+                            data-question={index}
+                        >
+                            {option}
+                        </label>
+                    </div>
+                    )
         })
         return(
             <>
                 <QuestionList 
-                    key={index} 
+                    key={"Que" + index} 
                     question={item.question} 
                     choice={options}
                 />
@@ -95,12 +123,15 @@ export default function Quiz(){
         )
     }
 
+    // function showAnswer(){
+    //     document.querySelectorAll('checke')
+    // }
 
     return(
         <main>
             {!showQuestions ? <Welcome /> : questionsList}
         
-            {showQuestions && <button className="checkAnswer">Check Answer</button>}
+            {showQuestions && <button className="checkAnswer" >Check Answer</button>}
         </main>
     )
 }
