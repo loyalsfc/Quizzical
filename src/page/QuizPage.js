@@ -2,10 +2,53 @@ import React, { useEffect, useState, useId } from 'react'
 import logo from '../assets/logo.png'
 
 function QuizPage() {
-    const [questions, setQuestions] = useState([])
+    const [questions, setQuestions] = useState([
+        {
+            "category":"Science: Mathematics",
+            "type":"multiple",
+            "difficulty":"easy",
+            "question":"In Roman Numerals, what does XL equate to?",
+            "correct_answer":"40",
+            "incorrect_answers":["60","15","90"]
+        },
+        {
+                
+            "category":"Science: Mathematics",
+            "type":"multiple",
+            "difficulty":"easy",
+            "question":"What prime number comes next after 19?",
+            "correct_answer":"23",
+            "incorrect_answers":["25","21","27"]
+        },
+        {
+            "category":"Science: Mathematics",
+            "type":"multiple",
+            "difficulty":"easy",
+            "question":"D in Bodmas stands for",
+            "correct_answer":"/",
+            "incorrect_answers":["*","-","+"]
+        },
+        {
+            "category":"Science: Mathematics",
+            "type":"multiple",
+            "difficulty":"easy",
+            "question":"How many sides does a heptagon have?",
+            "correct_answer":"7",
+            "incorrect_answers":["8","6","5"]
+        },
+        {
+            "category":"Science: Mathematics",
+            "type":"multiple",
+            "difficulty":"easy",
+            "question":"Which of this is a prime number?",
+            "correct_answer":"7",
+            "incorrect_answers":["4","9","16"]
+        }
+    ])
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [answers, setAnswers] = useState({})
     const alphOptions = ['A', 'B', 'C', 'D']
+    const [score, setScore] = useState(0)
 
     useEffect(()=>{
         fetch('https://opentdb.com/api.php?amount=10&category=21&difficulty=easy&type=multiple')
@@ -17,11 +60,7 @@ function QuizPage() {
         setCurrentQuestion(prevValue => prevValue + 1)
     }
 
-    function prevQuestion(){
-        setCurrentQuestion(prevValue => prevValue - 1)
-    }
-
-    function submitAnswer(event){
+    function selectiOption(event){
         const {name, value} = event.target
         setAnswers({...answers, [name]: value})
     }
@@ -32,12 +71,6 @@ function QuizPage() {
         })
         event.currentTarget.classList.add('bg-green-200')
     }
-
-    function finalSubmission(){
-        console.log(Object.entries(answers))
-    }
-    console.log(answers)
-
 
     const displayQuestion = questions.map((question, index) => {
         if(index == currentQuestion){
@@ -53,9 +86,9 @@ function QuizPage() {
                             question.incorrect_answers.map((option, optionIndex)=>{
                                 return(
                                     <>
-                                        <input className='hidden' onChange={submitAnswer} type="radio" name={`question-${index}`} id={`option-${index}-${optionIndex}`} value={option} />
+                                        <input className='hidden' onChange={selectiOption} type="radio" name={questions[index].question} id={`option-${index}-${optionIndex}`} value={option} />
                                         <label onClick={markOption} htmlFor={`option-${index}-${optionIndex}`} key={`p-${optionIndex}`} className='bg-grey py-3 cursor-pointer px-6 rounded-lg flex items-center gap-8'>
-                                            <div className='h-8 w-8 rounded-full flex items-center justify-center bg-[#EDE8E3] font-xl font-semibold text-dark-100 shrink-0'>{alphOptions[optionIndex]}</div>
+                                            <div className='h-8 w-8 rounded-full flex items-center justify-center bg-primary font-xl font-semibold text-dark-100 shrink-0'>{alphOptions[optionIndex]}</div>
                                             <span className='text-lg font-semibold '>{option}</span>
                                         </label>
                                     </>
@@ -68,6 +101,18 @@ function QuizPage() {
         }
     })
 
+    function getTotalScore(){
+        let initialScore = 0
+        questions.forEach(question => {
+            const que = question.question
+            if(question.correct_answer === answers[que]){
+                initialScore++
+            }
+        });
+        setScore(initialScore)
+    }
+
+    console.log(score)
 
     return (
         <div>
@@ -87,13 +132,10 @@ function QuizPage() {
                     {displayQuestion}
                 </div>
             </main>
-            <footer className='fixed bottom-0 left-0 w-full bg-grey flex justify-center py-4 font-medium'>
-                <button disabled={currentQuestion == 0 ? true : false} onClick={prevQuestion} className='navigation-btn disabled:opacity-50'>
-                    <svg width="9" height="12" viewBox="0 0 7 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path className='fill-grey' d="M0.971314 4.01683L6.63186 0.748709L6.63186 7.28495L0.971314 4.01683Z" fill="#333333"/>
-                    </svg>
-                    Previous
-                </button>
+            <footer className='fixed bottom-0 left-0 w-full bg-grey flex justify-center items-center py-4 font-medium'>
+                <div className='w-[250px] h-4 rounded-full bg-primary overflow-hidden'>
+                    <div className='h-full bg-green-100 rounded-full' style={{width: ((currentQuestion + 1) / questions.length) * 100 + '%'}}></div>
+                </div>
                 <div className='mx-16 relative'>
                     <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path className='fill-green-100' d="M43.2877 6.11904L42.3733 5.20464C40.3921 3.22345 37.0393 3.22345 35.0581 5.20464L33.2293 7.03344C30.0289 5.50944 26.3713 4.89985 22.5614 5.35704C13.5698 6.42384 6.40702 13.5866 5.34022 22.5782C3.96863 34.6177 13.265 44.8285 24.9997 44.8285C28.3525 44.8285 31.5529 44.0665 34.2961 42.5425L37.6489 45.8953C37.8013 46.0477 37.9537 46.2001 38.1061 46.2001H38.2585H38.4109C38.5633 46.2001 38.5633 46.2001 38.7157 46.2001C38.8681 46.2001 38.8681 46.2001 39.0205 46.2001H39.1729H39.3253C39.4777 46.2001 39.6301 46.0477 39.7825 45.8953C39.9349 45.7429 40.0873 45.5905 40.0873 45.4381V45.2857V45.1333V44.9809V37.8181C42.9829 34.3129 44.6593 29.8933 44.6593 25.169C44.6593 21.359 43.5925 18.0062 41.7637 14.9582L43.2877 13.4342C45.2689 11.453 45.2689 8.10023 43.2877 6.11904ZM40.2397 26.5406H41.7637C41.3065 31.5697 38.5633 35.9893 34.6009 38.7325C33.9913 39.1897 33.3817 39.4945 32.7721 39.7993C30.9433 40.7137 28.8097 41.4757 26.6761 41.6281V40.1041C26.6761 39.3421 25.9141 38.5801 25.1521 38.5801C24.3901 38.5801 23.6282 39.3421 23.6282 40.1041V41.6281C15.551 40.8661 9.15021 34.4653 8.38821 26.3882H9.9122C10.6742 26.3882 11.4362 25.6262 11.4362 24.8642C11.4362 24.1022 10.6742 23.3402 9.9122 23.3402H8.23581C8.99781 15.4154 15.3986 9.01463 23.4758 8.25263V9.77663C23.4758 10.5386 24.2377 11.3006 24.9997 11.3006C25.7617 11.3006 26.5237 10.5386 26.5237 9.77663V8.25263C34.6009 9.01463 41.0017 15.4154 41.7637 23.4926H40.2397C39.4777 23.4926 38.7157 24.2546 38.7157 25.0166C38.7157 25.7786 39.4777 26.5406 40.2397 26.5406Z"/>
@@ -101,21 +143,14 @@ function QuizPage() {
                     </svg>
                     <span className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-green-100'>60</span>
                 </div>
-                {currentQuestion != questions.length -1  ? <>
+                {currentQuestion != questions.length -1  ?
                     <button onClick={nextQuestion} className='navigation-btn'>
-                    Next
-                    <svg width="9" height="12" viewBox="0 0 6 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path className='fill-grey' d="M5.90063 4.01686L0.240085 7.28498L0.240085 0.748744L5.90063 4.01686Z" />
-                    </svg>
-                </button>
-                <button className='ml-4 text-green-100 flex items-center gap-1'>
-                    Skip
-                    <svg width="17" height="12" viewBox="0 0 13 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path className='fill-green-100' d="M8.46973 4.3069L2.80918 7.57502L2.80918 1.03878L8.46973 4.3069Z" />
-                        <path className='fill-green-100' d="M12.5337 4.3069L6.87314 7.57502L6.87314 1.03878L12.5337 4.3069Z" />
-                    </svg>
-                </button>
-                </> : <button onClick={finalSubmission} className='navigation-btn'>Submit</button>}
+                        Next
+                        <svg width="9" height="12" viewBox="0 0 6 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path className='fill-grey' d="M5.90063 4.01686L0.240085 7.28498L0.240085 0.748744L5.90063 4.01686Z" />
+                        </svg>
+                    </button> 
+                : <button onClick={getTotalScore} className='navigation-btn'>Submit</button>}
             </footer>
         </div>
     )
