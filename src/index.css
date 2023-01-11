@@ -7,6 +7,10 @@
     font-family: 'Poppins', sans-serif;
 }
 
+*::-webkit-scrollbar{
+    display: none;
+}
+
 @layer utilities {
     .navigation-btn{
         @apply py-2 px-4 bg-green-100 text-grey flex items-center gap-2
@@ -98,4 +102,8 @@ section{
 }
 input[type=radio]{
     /* display: none; */
+}
+
+.strikethrough{
+    text-decoration: line-through;
 }

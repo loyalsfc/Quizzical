@@ -1,14 +1,13 @@
 import React from "react";
 import Quiz from "./component/Quiz";
 import './index.css'
-import DataFetching from "./component/Answer";
 import QuizPage from "./page/QuizPage";
+import Todo from "./page/Todo";
 
 function App() {
   return (
     <div className="App">
-      <QuizPage/>
-    {/* <DataFetching /> */}
+      <Todo />
     </div>
   );
 }
