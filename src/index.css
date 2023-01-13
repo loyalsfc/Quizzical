@@ -5,6 +5,7 @@
 :root{
     background-color: #EDE8E3;
     font-family: 'Poppins', sans-serif;
+    color: #333333;
 }
 
 *::-webkit-scrollbar{
@@ -106,4 +107,7 @@ input[type=radio]{
 
 .strikethrough{
     text-decoration: line-through;
+}
+input{
+    background-color: transparent;
 }

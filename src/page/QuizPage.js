@@ -63,7 +63,7 @@ function QuizPage() {
             }
             return (
                 <div key={index} className='max-w-[690px] mx-auto'>
-                    <h1 className='text-[#191D63] text-2xl leading-[136%] text-center font-semibold my-6'>{question.question}</h1>
+                    <h1 className='text-[#191D63] text-2xl leading-[136%] text-center font-semibold my-6'>{question.question.replaceAll('&quot;', '"').replaceAll('&#039;', "'")}</h1>
                     <div className='flex flex-col gap-4 max-w-[450px] mx-auto'>
                         {
                             question.incorrect_answers.map((option, optionIndex)=>{
