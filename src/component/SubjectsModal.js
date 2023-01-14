@@ -13,15 +13,36 @@ function SubjectsModal() {
 
     const categoriesItem = categories.map(cat => {
         return(
-            <div data-id={cat.id} key={cat.id} className="text-center text-black bg-[#D1D1D1] shrink-0 font-medium text-sm">
+            <div onClick={(e)=>selectCategory(e, cat.id)} data-id={cat.id} key={cat.id} className="text-center text-black bg-[#D1D1D1] shrink-0 font-medium text-sm flex">
                 <span 
-                    className={`min-w-[70px] block cursor-pointer py-1.5 px-2.5 ${'d'}`}
+                    className={`min-w-[70px] block cursor-pointer py-1.5 px-2.5 ${selectCategories.includes(cat.id) ? "bg-green-100 text-white" : ""}`}
                 >
                         {cat.name.split(":").length == 2 ? cat.name.split(":")[1] : cat.name.split(":")[0]}
                 </span>
+                {selectCategories.includes(cat.id) && 
+                <button onClick={(e)=>removeCategory(e, cat.id)} className="bg-black px-2">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.11898 11.2845L6.10586 7.2976L10.0927 11.2845L11.4346 9.94259L7.44774 5.95571L11.4346 1.96884L10.0927 0.626953L6.10586 4.61383L2.11898 0.626953L0.7771 1.96884L4.76398 5.95571L0.7771 9.94259L2.11898 11.2845Z" fill="white"/>
+                    </svg>            
+                </button>
+                }
             </div>
         )
     })
+
+    const removeCategory = (e, id) => {
+        e.stopPropagation()
+        setSelectedCategories(prevItem => {
+            return prevItem.filter(item => item != id)
+        })
+    }
+
+    console.log(selectCategories)
+
+    const selectCategory = (e, id) => {
+        if(!selectCategories.includes(id))
+        setSelectedCategories([...selectCategories, id])
+    }
 
     return (
         <div className='h-screen w-full fixed top-0 left-0 bg-black/[0.5] flex items-center justify-center'>
