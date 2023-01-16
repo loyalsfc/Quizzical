@@ -1,30 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css';
+import { Context } from '../Context';
 
 
 function SubjectsModal({hideModal}) {
-    const [categories, setCategories] = useState([])
-    const [selectCategories, setSelectedCategories] = useState([])
+    const {categories, selectCategories, setSelectedCategories, fetchQuestions} = useContext(Context)
     const navigate = useNavigate()
 
-    useEffect(()=>{
-        fetch('https://opentdb.com/api_category.php')
-        .then(res => res.json())
-        .then(data => setCategories(data.trivia_categories))
-    },[])
 
     const categoriesItem = categories.map(cat => {
+        const {id, name} = cat
         return(
-            <div onClick={(e)=>selectCategory(e, cat.id)} data-id={cat.id} key={cat.id} className="text-center text-black bg-[#D1D1D1] shrink-0 font-medium text-sm flex">
+            <div onClick={()=>selectCategory(id, name)} data-id={id} key={id} className="text-center text-black bg-[#D1D1D1] shrink-0 font-medium text-sm flex">
                 <span 
-                    className={`min-w-[70px] block cursor-pointer py-1.5 px-2.5 ${selectCategories.includes(cat.id) ? "bg-green-100 text-white" : ""}`}
+                    className={`min-w-[70px] block cursor-pointer py-1.5 px-2.5 ${selectCategories.some(cat => cat.id == id) ? "bg-green-100 text-white" : ""}`}
                 >
-                        {cat.name.split(":").length == 2 ? cat.name.split(":")[1] : cat.name.split(":")[0]}
+                        {name.split(":").length == 2 ? name.split(":")[1] : name.split(":")[0]}
                 </span>
-                {selectCategories.includes(cat.id) && 
-                <button onClick={(e)=>removeCategory(e, cat.id)} className="bg-black px-2">
+                {selectCategories.some(cat => cat.id == id) && 
+                <button onClick={(e)=>removeCategory(e, id)} className="bg-black px-2">
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M2.11898 11.2845L6.10586 7.2976L10.0927 11.2845L11.4346 9.94259L7.44774 5.95571L11.4346 1.96884L10.0927 0.626953L6.10586 4.61383L2.11898 0.626953L0.7771 1.96884L4.76398 5.95571L0.7771 9.94259L2.11898 11.2845Z" fill="white"/>
                     </svg>            
@@ -37,18 +33,22 @@ function SubjectsModal({hideModal}) {
     const removeCategory = (e, id) => {
         e.stopPropagation()
         setSelectedCategories(prevItem => {
-            return prevItem.filter(item => item != id)
+            return prevItem.filter(item => item.id != id)
         })
     }
 
-    console.log(selectCategories)
-
-    const selectCategory = (e, id) => {
-        if(!selectCategories.includes(id) && selectCategories.length < 3){
-            setSelectedCategories([...selectCategories, id])
+    const selectCategory = (id, name) => {
+        if(!selectCategories.some(cat => cat.id == id) && selectCategories.length < 3){
+            setSelectedCategories([...selectCategories, {id: id, name: name}])
         } else if(selectCategories.length >= 3){
             toast("You cannot add more than 3")
         }
+    }
+
+    function handleClick(e){
+        e.target.disabled = true; 
+        fetchQuestions()
+        navigate('/instruction')
     }
 
     return (
@@ -63,7 +63,13 @@ function SubjectsModal({hideModal}) {
                 <div className='flex flex-wrap gap-[30px] pl-[80px]'>
                     {categoriesItem}
                 </div>
-                <button className='text-sm bg-green-100 py-2 px-6 font-medium text-white mt-11 ml-auto block'>Start Quiz</button>
+                <button 
+                    disabled={selectCategories.length ? false : true}
+                    onClick={handleClick}
+                    className='text-sm bg-green-100 py-2 px-6 font-medium text-white mt-11 ml-auto block disabled:opacity-50'
+                >
+                    Start Quiz
+                </button>
             </div>
             
         </div>

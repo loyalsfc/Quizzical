@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function ScoreModal({score}) {
     return (
@@ -9,7 +10,7 @@ function ScoreModal({score}) {
                     <h4 className='text-3xl text-center'>Your score</h4>
                     <span>{score * 10}%</span>
                 </div>
-                <button className='self-end right-10 bg-green-100 font-medium leading-5 px-6 py-3 shadow text-white'>Continue</button>
+                <Link to="/" className='self-end'><button className='right-10 bg-green-100 font-medium leading-5 px-6 py-3 shadow text-white'>Continue</button></Link>
             </div>
         </div>
     )

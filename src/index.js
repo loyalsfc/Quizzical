@@ -7,6 +7,8 @@ import {
 } from "react-router-dom";
 import LandingPage from './page/LandingPage';
 import Instructions from './page/Instructions';
+import { ContextProvider } from './Context';
+import QuizPage from './page/QuizPage';
 
 const router = createBrowserRouter([
     {
@@ -17,9 +19,15 @@ const router = createBrowserRouter([
         path: "/instruction",
         element: <Instructions />,
     },
+    {
+        path:'/quiz',
+        element: <QuizPage />
+    }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <RouterProvider router={router} />
+    <ContextProvider>
+        <RouterProvider router={router} />
+    </ContextProvider>
 );
