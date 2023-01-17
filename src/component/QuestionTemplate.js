@@ -6,7 +6,7 @@ function QuestionTemplate({currentSubject, submitQuiz, setAnswers}) {
     const {subject, question: questions} = currentSubject
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const alphOptions = ['A', 'B', 'C', 'D']
-    const [duration, setDuration] = useState(15)
+    const [duration, setDuration] = useState(100)
     const nextBtn = useRef()
     const [intervalId, setIntervalId] = useState()
 
@@ -23,17 +23,19 @@ function QuestionTemplate({currentSubject, submitQuiz, setAnswers}) {
         return () => clearInterval(interval)
     },[])
 
+    // function stopCountdown(){
+    //     
+    // }
+
     useEffect(()=>{
         if(duration === 0){
-            submitQuiz()
-            // nextBtn.current.disabled = true
-            // clearInterval(intervalId)
+            submitQuiz(intervalId)
         }
     },[duration])
 
     useEffect(()=>{
         setCurrentQuestion(0)
-        setDuration(15)
+        setDuration(100)
     },[currentSubject])
 
     function nextQuestion(){
@@ -67,13 +69,13 @@ function QuestionTemplate({currentSubject, submitQuiz, setAnswers}) {
                         {
                             question.incorrect_answers.map((option, optionIndex)=>{
                                 return(
-                                    <>
+                                    <div key={`p-${optionIndex}`}>
                                         <input className='hidden' onChange={selectiOption} type="radio" name={questions[index].question} id={`option-${index}-${optionIndex}`} value={option} />
-                                        <label onClick={markOption} htmlFor={`option-${index}-${optionIndex}`} key={`p-${optionIndex}`} className='bg-grey py-3 cursor-pointer px-6 rounded-lg flex items-center gap-8'>
+                                        <label onClick={markOption} htmlFor={`option-${index}-${optionIndex}`} className='bg-grey py-3 cursor-pointer px-6 rounded-lg flex items-center gap-8'>
                                             <div className='h-8 w-8 rounded-full flex items-center justify-center bg-primary font-xl font-semibold text-dark-100 shrink-0'>{alphOptions[optionIndex]}</div>
                                             <span className='text-lg font-semibold '>{option}</span>
                                         </label>
-                                    </>
+                                    </div>
                                 )
                             })
                         }
