@@ -9,23 +9,22 @@ function QuestionTemplate({currentSubject, submitQuiz, setAnswers}) {
     const [duration, setDuration] = useState(100)
     const nextBtn = useRef()
     const [intervalId, setIntervalId] = useState()
+    const [showModal, setShowModal] = useState(true)
 
     useEffect(()=>{
-        const interval = setInterval(()=>{
-            setDuration(prevValue => {
-                if(prevValue > 0){
-                    return prevValue - 1
-                } 
-                return prevValue
-            })
-        },1000)
-        setIntervalId(interval)
-        return () => clearInterval(interval)
-    },[])
-
-    // function stopCountdown(){
-    //     
-    // }
+        if(!showModal){
+            const interval = setInterval(()=>{
+                setDuration(prevValue => {
+                    if(prevValue > 0){
+                        return prevValue - 1
+                    } 
+                    return prevValue
+                })
+            },1000)
+            setIntervalId(interval)
+            return () => clearInterval(interval)
+        }
+    },[showModal])
 
     useEffect(()=>{
         if(duration === 0){
@@ -36,6 +35,7 @@ function QuestionTemplate({currentSubject, submitQuiz, setAnswers}) {
     useEffect(()=>{
         setCurrentQuestion(0)
         setDuration(100)
+        setShowModal(true)
     },[currentSubject])
 
     function nextQuestion(){
@@ -86,16 +86,37 @@ function QuestionTemplate({currentSubject, submitQuiz, setAnswers}) {
     })
 
     return (
-            <div className='flex h-screen flex-col justify-between '>
+            <div className='flex h-screen flex-col justify-between'>
+                {showModal && <div className='bg-black/[0.5] w-full border h-screen fixed z-20 flex items-center justify-center'>
+                    <div className='w-[500px] h-[400px] max-w-full bg-white p-12 flex flex-col justify-center'>
+                        <div className='w-full font-medium text-lg'>
+                            <div className='py-4 flex'>
+                                <div className='w-2/5 font-semibold'>Topic:</div>
+                                <div>{subject}</div>
+                            </div>
+                            <div className='py-4 flex'>
+                                <div className='w-2/5 font-semibold'>Questions:</div>
+                                <div>{questions.length}</div>
+                            </div>
+                            <div className='py-4 flex'>
+                                <div className='w-2/5 font-semibold'>Total Time:</div>
+                                <div>100 seconds</div>
+                            </div>
+                        </div>
+                        <button onClick={()=>setShowModal(false)} className='font-medium bg-green-100 text-white px-8 py-2 block mx-auto mt-10'>Start</button>
+                    </div>
+                </div>}
                 <header className='pt-8'>
-                    <div className='mx-auto container flex justify-between'>
+                    <div className='mx-auto container flex items-center justify-between'>
                         <Link to='/'><img src={logo} alt="logo" /></Link>
-                        <span className='font-semibold font-[1.5rem] text-black '>{subject}</span>
-                        <button className='h-8 w-8 rounded-full bg-grey flex items-center justify-center'>
-                            <svg width="14" height="14" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10.9583 8.99996L16.9305 3.04163C17.192 2.7801 17.339 2.42538 17.339 2.05552C17.339 1.68566 17.192 1.33094 16.9305 1.06941C16.669 0.807877 16.3143 0.66095 15.9444 0.66095C15.5745 0.66095 15.2198 0.807877 14.9583 1.06941L8.99995 7.04163L3.04162 1.06941C2.78009 0.807877 2.42537 0.66095 2.05551 0.66095C1.68565 0.66095 1.33093 0.807877 1.0694 1.06941C0.807867 1.33094 0.66094 1.68566 0.66094 2.05552C0.66094 2.42538 0.807867 2.7801 1.0694 3.04163L7.04162 8.99996L1.0694 14.9583C0.939222 15.0874 0.835897 15.241 0.765385 15.4103C0.694873 15.5795 0.658569 15.7611 0.658569 15.9444C0.658569 16.1278 0.694873 16.3093 0.765385 16.4785C0.835897 16.6478 0.939222 16.8014 1.0694 16.9305C1.19852 17.0607 1.35213 17.164 1.52138 17.2345C1.69063 17.305 1.87216 17.3413 2.05551 17.3413C2.23886 17.3413 2.4204 17.305 2.58965 17.2345C2.75889 17.164 2.91251 17.0607 3.04162 16.9305L8.99995 10.9583L14.9583 16.9305C15.0874 17.0607 15.241 17.164 15.4103 17.2345C15.5795 17.305 15.761 17.3413 15.9444 17.3413C16.1277 17.3413 16.3093 17.305 16.4785 17.2345C16.6478 17.164 16.8014 17.0607 16.9305 16.9305C17.0607 16.8014 17.164 16.6478 17.2345 16.4785C17.305 16.3093 17.3413 16.1278 17.3413 15.9444C17.3413 15.7611 17.305 15.5795 17.2345 15.4103C17.164 15.241 17.0607 15.0874 16.9305 14.9583L10.9583 8.99996Z" fill="black"/>
-                            </svg>
-                        </button>
+                        <span className='font-semibold text-2xl text-black '>{subject}</span>
+                        <Link to='/'>
+                            <button className='h-8 w-8 rounded-full bg-grey flex items-center justify-center'>
+                                <svg width="14" height="14" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10.9583 8.99996L16.9305 3.04163C17.192 2.7801 17.339 2.42538 17.339 2.05552C17.339 1.68566 17.192 1.33094 16.9305 1.06941C16.669 0.807877 16.3143 0.66095 15.9444 0.66095C15.5745 0.66095 15.2198 0.807877 14.9583 1.06941L8.99995 7.04163L3.04162 1.06941C2.78009 0.807877 2.42537 0.66095 2.05551 0.66095C1.68565 0.66095 1.33093 0.807877 1.0694 1.06941C0.807867 1.33094 0.66094 1.68566 0.66094 2.05552C0.66094 2.42538 0.807867 2.7801 1.0694 3.04163L7.04162 8.99996L1.0694 14.9583C0.939222 15.0874 0.835897 15.241 0.765385 15.4103C0.694873 15.5795 0.658569 15.7611 0.658569 15.9444C0.658569 16.1278 0.694873 16.3093 0.765385 16.4785C0.835897 16.6478 0.939222 16.8014 1.0694 16.9305C1.19852 17.0607 1.35213 17.164 1.52138 17.2345C1.69063 17.305 1.87216 17.3413 2.05551 17.3413C2.23886 17.3413 2.4204 17.305 2.58965 17.2345C2.75889 17.164 2.91251 17.0607 3.04162 16.9305L8.99995 10.9583L14.9583 16.9305C15.0874 17.0607 15.241 17.164 15.4103 17.2345C15.5795 17.305 15.761 17.3413 15.9444 17.3413C16.1277 17.3413 16.3093 17.305 16.4785 17.2345C16.6478 17.164 16.8014 17.0607 16.9305 16.9305C17.0607 16.8014 17.164 16.6478 17.2345 16.4785C17.305 16.3093 17.3413 16.1278 17.3413 15.9444C17.3413 15.7611 17.305 15.5795 17.2345 15.4103C17.164 15.241 17.0607 15.0874 16.9305 14.9583L10.9583 8.99996Z" fill="black"/>
+                                </svg>
+                            </button>
+                        </Link>
                     </div>
                 </header>
                 <main>
@@ -120,7 +141,7 @@ function QuestionTemplate({currentSubject, submitQuiz, setAnswers}) {
                                 <path className='fill-grey' d="M5.90063 4.01686L0.240085 7.28498L0.240085 0.748744L5.90063 4.01686Z" />
                             </svg>
                         </button> 
-                        <button onClick={submitQuiz} className={`navigation-btn ${currentQuestion != questions.length - 1 ? "hidden" : "flex"}`}>Submit</button>
+                        <button onClick={()=>submitQuiz(intervalId)} className={`navigation-btn ${currentQuestion != questions.length - 1 ? "hidden" : "flex"}`}>Submit</button>
                 </footer>
             </div>
     )

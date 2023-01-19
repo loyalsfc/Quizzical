@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useId, useRef, useContext } from 'react'
+import React, { useEffect, useState,useContext } from 'react'
 import ScoreModal from '../component/ScoreModal'
 import QuestionTemplate from '../component/QuestionTemplate'
 import { Context } from '../Context'
@@ -24,7 +24,6 @@ function QuizPage() {
     }
 
     useEffect(()=>{
-        console.log(totalAnswers, questions)
         if(currentSubjectIndex === questions.length - 1){
             let calculatedScore = []
             questions.forEach(que=> {
