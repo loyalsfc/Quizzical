@@ -4,10 +4,14 @@ import logo from '../assets/logo.png'
 
 
 function Header() {
+    function toggleNav(){
+
+    }
+
     return (
         <header className='flex justify-between items-center pt-9 pb-5 border-b border-b-grey-100'>
             <Link to='/'><img src={logo} /></Link>
-            <nav>
+            <nav className='hidden md:block'>
                 <ul className='flex  gap-6 items-center text-grey-100'>
                     <li className='cursor-pointer'>How it works?</li>
                     <li className='cursor-pointer'>Features</li>
@@ -24,6 +28,9 @@ function Header() {
                     </li>
                 </ul>
             </nav>
+            <svg onClick={toggleNav} className='md:hidden' width="40" height="35" viewBox="0 0 40 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 24.5H29.0312M10 17.25H29.0312M10 10H29.0312" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
         </header>
     )
 }

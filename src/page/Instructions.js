@@ -5,7 +5,7 @@ import Header from '../component/Header'
 function Instructions() {
     return (
         <div>
-            <div className='container mx-auto'>
+            <div className='container mx-auto px-4'>
                 <Header />
                 <main className='my-10'>
                     <h1 className="text-center text-3xl font-semibold">Quiz Instructions</h1>

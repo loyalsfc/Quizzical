@@ -36,6 +36,9 @@ function QuestionTemplate({currentSubject, submitQuiz, setAnswers}) {
         setCurrentQuestion(0)
         setDuration(100)
         setShowModal(true)
+        if(questions.length === 0){
+            submitQuiz(intervalId)
+        }
     },[currentSubject])
 
     function nextQuestion(){
@@ -64,7 +67,7 @@ function QuestionTemplate({currentSubject, submitQuiz, setAnswers}) {
             }
             return (
                 <div key={index} className='max-w-[690px] mx-auto'>
-                    <h1 className='text-[#191D63] text-2xl leading-[136%] text-center font-semibold my-6'>{question.question.replaceAll('&quot;', '"').replaceAll('&#039;', "'")}</h1>
+                    <h1 className='text-[#191D63] text-2xl leading-[136%] text-center font-semibold my-6'>{question.question.replaceAll('&quot;', '"').replaceAll('&#039;', "'").replaceAll('&amp;','&')}</h1>
                     <div className='flex flex-col gap-4 max-w-[450px] mx-auto'>
                         {
                             question.incorrect_answers.map((option, optionIndex)=>{
@@ -73,7 +76,7 @@ function QuestionTemplate({currentSubject, submitQuiz, setAnswers}) {
                                         <input className='hidden' onChange={selectiOption} type="radio" name={questions[index].question} id={`option-${index}-${optionIndex}`} value={option} />
                                         <label onClick={markOption} htmlFor={`option-${index}-${optionIndex}`} className='bg-grey py-3 cursor-pointer px-6 rounded-lg flex items-center gap-8'>
                                             <div className='h-8 w-8 rounded-full flex items-center justify-center bg-primary font-xl font-semibold text-dark-100 shrink-0'>{alphOptions[optionIndex]}</div>
-                                            <span className='text-lg font-semibold '>{option}</span>
+                                            <span className='text-lg font-semibold '>{option.replaceAll('&quot;', '"').replaceAll('&#039;', "'").replaceAll('&amp;','&')}</span>
                                         </label>
                                     </div>
                                 )
@@ -85,30 +88,37 @@ function QuestionTemplate({currentSubject, submitQuiz, setAnswers}) {
         }
     })
 
+    const progress = <>
+                    <div className='w-full md:w-[250px] h-4 rounded-full bg-white md:bg-primary overflow-hidden'>
+                            <div className='h-full bg-green-100 rounded-full' style={{width: ((currentQuestion + 1) / questions.length) * 100 + '%'}}></div>
+                        </div>
+                        <span>{`${currentQuestion + 1}/${questions.length}`}</span>
+                    </>
+
     return (
-            <div className='flex h-screen flex-col justify-between'>
-                {showModal && <div className='bg-black/[0.5] w-full border h-screen fixed z-20 flex items-center justify-center'>
-                    <div className='w-[500px] h-[400px] max-w-full bg-white p-12 flex flex-col justify-center'>
+            <div className='flex h-screen flex-col justify-between relative'>
+                {showModal && <div className='bg-black/[0.5] w-full left-0 border h-screen fixed z-20 flex items-center justify-center'>
+                    <div className='w-[500px] h-[400px] max-w-[95%] bg-white p-6 sm:p-12 flex flex-col justify-center'>
                         <div className='w-full font-medium text-lg'>
                             <div className='py-4 flex'>
-                                <div className='w-2/5 font-semibold'>Topic:</div>
-                                <div>{subject}</div>
+                                <div className='w-2/5 shrink-0 font-semibold'>Topic:</div>
+                                <div className='w-3/5 shrink-0'>{subject}</div>
                             </div>
                             <div className='py-4 flex'>
-                                <div className='w-2/5 font-semibold'>Questions:</div>
-                                <div>{questions.length}</div>
+                                <div className='w-2/5 shrink-0 font-semibold'>Questions:</div>
+                                <div className='w-3/5 shrink-0'>{questions.length}</div>
                             </div>
                             <div className='py-4 flex'>
-                                <div className='w-2/5 font-semibold'>Total Time:</div>
-                                <div>100 seconds</div>
+                                <div className='w-2/5 shrink-0 font-semibold'>Total Time:</div>
+                                <div className='w-3/5 shrink-0'>100 seconds</div>
                             </div>
                         </div>
                         <button onClick={()=>setShowModal(false)} className='font-medium bg-green-100 text-white px-8 py-2 block mx-auto mt-10'>Start</button>
                     </div>
                 </div>}
-                <header className='pt-8'>
+                <header className='pt-8 px-4 sm:px-0'>   
                     <div className='mx-auto container flex items-center justify-between'>
-                        <Link to='/'><img src={logo} alt="logo" /></Link>
+                        <Link to='/' className='hidden sm:inline'><img src={logo} alt="logo" /></Link>
                         <span className='font-semibold text-2xl text-black '>{subject}</span>
                         <Link to='/'>
                             <button className='h-8 w-8 rounded-full bg-grey flex items-center justify-center'>
@@ -119,14 +129,19 @@ function QuestionTemplate({currentSubject, submitQuiz, setAnswers}) {
                         </Link>
                     </div>
                 </header>
+                <section className='px-4 md:px-0 md:hidden'>
+                    <div className='flex items-center gap-2'>
+                        {progress}
+                    </div>
+                </section>
                 <main>
-                    <div className='container mx-auto '>
+                    <div className='container mx-auto px-4 sm:px-0'>
                         {displayQuestion}
                     </div>
                 </main>
-                <footer className=' bottom-0 left-0 w-full bg-grey flex justify-center items-center py-4 font-medium'>
-                    <div className='w-[250px] h-4 rounded-full bg-primary overflow-hidden'>
-                        <div className='h-full bg-green-100 rounded-full' style={{width: ((currentQuestion + 1) / questions.length) * 100 + '%'}}></div>
+                <footer className=' bottom-0 left-0 w-full bg-grey flex justify-center items-center mt-2 py-4 font-medium'>
+                    <div className='items-center gap-2 hidden md:flex'>
+                        {progress}
                     </div>
                     <div className='mx-16 relative'>
                         <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -8,13 +8,12 @@ function LandingPage() {
     return (
         <>
             {showModal && <SubjectsModal hideModal={()=>setShowModal(false)}/>}
-            <div>
-                <div className='container mx-auto'>
-                    <div className='max-w-[1200px] mx-auto'>
-                        <Header />
-                        <main className='flex items-center'>
-                            <article className='w-1/2 flex flex-col gap-10 pl-12'>
-                                <h1 className='font-medium text-[37px]'>Learn <br/>new concepts <br/> for each question</h1>
+            <div className='container mx-auto px-4'>
+                <div className='max-w-[1200px]  mx-auto h-screen flex flex-col'>
+                    <Header />
+                    <main className='flex flex-col md:flex-row pt-8 md:pt-0 items-center h-full'>
+                        <article className='w-full md:w-1/2 flex flex-col gap-10 md:pl-12'>
+                                <h1 className='font-medium text-[37px]'>Learn <br className='hidden md:inline'/>new concepts <br className='hidden md:inline'/> for each question</h1>
                                 <p className='text-[#828282] leading-5 border-l border-[#333333] pl-3'>We help you prepare for exams and quizes </p>
                                 <div className='flex gap-7'>
                                     <button onClick={()=>setShowModal(true)} className='py-3 px-4 bg-green-100 text-sm font-medium text-white leading-5'>Start solving</button>
@@ -25,12 +24,11 @@ function LandingPage() {
                                         <span>Know more</span>
                                     </button>
                                 </div>
-                            </article>
-                            <div className='w-1/2'>
-                                <img src={heroImage} className="w-[80%]"/>
-                            </div>
-                        </main>
-                    </div>
+                        </article>
+                        <div className='w-full md:w-1/2'>
+                                <img src={heroImage} className="w-full md:w-4/5"/>
+                        </div>
+                    </main>
                 </div>
             </div>
         </>
