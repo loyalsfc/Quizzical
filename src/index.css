@@ -21,3 +21,8 @@
     background-color: #45C486 !important;
     color: #fff !important;
 }
+
+.w-0{
+    width: 0;
+    overflow: hidden;
+}
