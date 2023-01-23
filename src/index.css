@@ -16,6 +16,9 @@
     .navigation-btn{
         @apply py-2 px-4 bg-green-100 text-grey items-center gap-2
     }
+    .form-input{
+        @apply block focus:outline-0 text-green-100 
+    }
 }
 .bg-green-200{
     background-color: #45C486 !important;

@@ -9,6 +9,8 @@ import LandingPage from './page/LandingPage';
 import Instructions from './page/Instructions';
 import { ContextProvider } from './Context';
 import QuizPage from './page/QuizPage';
+import Register from './page/Register';
+import Login from './page/Login';
 
 const router = createBrowserRouter([
     {
@@ -22,6 +24,14 @@ const router = createBrowserRouter([
     {
         path:'/quiz',
         element: <QuizPage />
+    },
+    {
+        path:'/register',
+        element: <Register />
+    },
+    {
+        path:'/login',
+        element:<Login />
     }
 ]);
 
