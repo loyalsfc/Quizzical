@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import capImage from '../assets/graduate.png'
 import logo from '../assets/logo.png'
-
 function Registration({children}) {
     
 

@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 import Registration, {InputWrapper} from './Registration'
 import { Link } from 'react-router-dom'
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../firebaseconfig';
 
 function Register() {
     const [formData, setFormData] = useState({
@@ -14,6 +16,22 @@ function Register() {
         setFormData({...formData, [id]: value})
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        createUserWithEmailAndPassword(auth, formData.email, formData.password)
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            console.log(user)
+            // ...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // ..
+            console.log(errorMessage)
+        });
+    }
     return (
         <div>
             <Registration>   
@@ -21,7 +39,7 @@ function Register() {
                         <h2>Welcome!</h2>
                         <p>Please Sign up to access our service</p>    
                 </article>
-                <form className='w-[347px] max-w-full flex flex-col gap-3'>
+                <form onSubmit={handleSubmit} className='w-[347px] max-w-full flex flex-col gap-3'>
                         <div>
                             <InputWrapper
                                 id='name'
