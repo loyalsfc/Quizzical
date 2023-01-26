@@ -6,7 +6,6 @@ function Dashboard() {
 
     return (
         <div>
-            {showModal && <SubjectsModal hideModal={()=>setShowModal(false)}/>}
         </div>
     )
 }

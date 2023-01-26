@@ -479,6 +479,13 @@ function ContextProvider({children}) {
             ]
         }
     ])
+    const [user, setUser] = useState(null)
+
+    useEffect(()=>{
+        if(localStorage.auth){
+            setUser(JSON.parse(localStorage.getItem('auth')))
+        }
+    },[])
 
     // useEffect(()=>{
     //     fetch('https://opentdb.com/api_category.php')
@@ -497,7 +504,7 @@ function ContextProvider({children}) {
     }
 
     return (
-        <Context.Provider value={{categories, selectCategories, setSelectedCategories, questions, fetchQuestions}}>
+        <Context.Provider value={{categories, selectCategories, setSelectedCategories, questions, fetchQuestions, setUser, user}}>
             {children}
         </Context.Provider>
     )

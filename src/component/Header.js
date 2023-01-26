@@ -1,15 +1,16 @@
-import React, { useRef } from 'react'
+import React, { useContext, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../assets/logo.png'
+import { Context } from '../Context';
 
 
 function Header() {
+    const {user} = useContext(Context)
     const mobileMenu = useRef();
     function toggleNav(){
         mobileMenu.current.classList.toggle('w-0')
     }
 
-    const user = null
     return (
         <header className='flex justify-between items-center pt-9 pb-5 border-b border-b-grey-100'>
             <div ref={mobileMenu} className='bg-white h-screen w-full fixed top-0 left-0 md:hidden transition-all flex items-center justify-center w-0'>

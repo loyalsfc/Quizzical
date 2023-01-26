@@ -62,10 +62,10 @@ function Login() {
                                     </div>
                                     <p>Forgot password?</p>
                             </div>
-                            <button className='bg-green-100 w-full py-3 text-white font-medium'>Sign up</button>
+                            <button className='bg-green-100 w-full py-3 text-white font-medium'>Sign in</button>
                         </form>
                         <p>Or login with <span className='font-bold text-green-100 mr-3'>Facebook</span> <span className='font-bold text-green-100'>Google</span></p>
-                        <p>Already have an account? <Link to='/login' className='text-green-100 font-medium'>Sign in</Link></p>
+                        <p>Already have an account? <Link to='/register' className='text-green-100 font-medium'>Sign up</Link></p>
             </Registration>
         </div>
     )
