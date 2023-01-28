@@ -1,8 +1,18 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import Header from '../component/Header'
+import { Context } from '../Context'
 
 function Instructions() {
+    const navigate = useNavigate()
+    const {user} = useContext(Context)
+    
+    useEffect(()=>{
+        if(!user){
+            navigate('/login')
+        }
+    },[])
+
     return (
         <div>
             <div className='container mx-auto px-4'>

@@ -52,7 +52,7 @@ function SubjectsModal({hideModal}) {
     }
 
     return (
-        <div className='h-screen w-full fixed top-0 left-0 bg-black/[0.5] flex items-center justify-center'>
+        <div className='h-screen w-full fixed top-0 left-0 bg-black/[0.5] flex items-center justify-center z-10'>
             <ToastContainer />
             <div className='relative bg-white w-[95%] sm:w-4/5 py-8 sm:py-[62px] md:pr-[29px]'>
                 <svg onClick={hideModal} className='absolute right-3 md:right-[18px] top-3 md:top-[18px]' width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
