@@ -2,6 +2,7 @@ import React, { useEffect, useState,useContext } from 'react'
 import ScoreModal from '../component/ScoreModal'
 import QuestionTemplate from '../component/QuestionTemplate'
 import { Context } from '../Context'
+import { Link } from 'react-router-dom'
 
 function QuizPage() {
     const {questions} = useContext(Context)
@@ -11,6 +12,8 @@ function QuizPage() {
     const [currentSubjectIndex, setCurrentSubjectIndex] = useState(0)
     const [showModal, setShowModal] = useState(false)
     const [isComplete, setIsComplete] = useState(false)
+
+    console.log(questions)
 
     function getTotalScore(intervalId){
         setTotalAnswers({...totalAnswers, [questions[currentSubjectIndex].subject]: answers})
@@ -46,11 +49,19 @@ function QuizPage() {
     return(
         <>
             {showModal && <ScoreModal score={score} />}
-            <QuestionTemplate 
-                currentSubject={questions[currentSubjectIndex]}
-                submitQuiz={getTotalScore} 
-                setAnswers={setAnswers}
-            />    
+            {questions.length > 0 ? (
+                <QuestionTemplate 
+                    currentSubject={questions[currentSubjectIndex]}
+                    submitQuiz={getTotalScore} 
+                    setAnswers={setAnswers}
+                />
+                ):(
+                    <div className='p-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+                        <h3 className='text-center font-medium mb-3'>No Question Selected</h3>
+                        <button className='bg-green-100 text-white rounded block mx-auto'><Link to='/' className='py-2 px-4 block'>Return Home</Link></button>
+                    </div>
+                )
+            }    
         </>
 
     )

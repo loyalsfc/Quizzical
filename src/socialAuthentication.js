@@ -2,7 +2,8 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth, provider } from "./firebaseconfig";
 import { signInUser } from "./utils";
 
-function googleLoginAuthentication(navigate, setUser){
+function loginWithGoogle(navigate, setUser){
+    console.log('hi')
     signInWithPopup(auth, provider)
     .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
@@ -25,4 +26,4 @@ function googleLoginAuthentication(navigate, setUser){
     });
 }
 
-export default googleLoginAuthentication
+export default loginWithGoogle

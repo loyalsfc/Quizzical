@@ -1,12 +1,12 @@
 import React, {useContext, useRef, useState} from 'react'
 import Registration, {InputWrapper} from './Registration'
 import { Link, useNavigate } from 'react-router-dom'
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../firebaseconfig';
 import { Context } from '../Context';
 import AuthenticationError from '../component/AuthenticationError';
 import { signInUser } from '../utils';
-import googleLoginAuthentication from '../socialAuthentication';
+import loginWithGoogle from '../socialAuthentication';
 
 function Register() {
     const navigate = useNavigate()
@@ -30,8 +30,15 @@ function Register() {
         submitButton.current.innerHTML = '<div class="loader mx-auto"></div>'
         createUserWithEmailAndPassword(auth, formData.email, formData.password)
         .then((userCredential) => {
-            // Signed in 
-            signInUser(userCredential, navigate, setUser)
+            updateProfile(auth.currentUser, {
+                displayName: formData.name, photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+              }).then(() => {
+                // Profile updated!
+                signInUser(userCredential, navigate, setUser)
+              }).catch((error) => {
+                // An error occurred
+                // ...
+              });
         })
         .catch((error) => {
             const errorCode = error.code;
@@ -108,7 +115,7 @@ function Register() {
                         </div>
                         <button ref={submitButton} className='bg-green-100 w-full py-3 text-white font-medium'>Sign up</button>
                 </form>
-                <p>Or login with <span className='font-bold text-green-100 mr-3'>Facebook</span> <span onClick={()=>googleLoginAuthentication(navigate, setUser)} className='font-bold text-green-100'>Google</span></p>
+                <p>Or login with <span className='font-bold text-green-100 mr-3'>Facebook</span> <span onClick={()=>loginWithGoogle(navigate, setUser)} className='font-bold text-green-100'>Google</span></p>
                 <p>Already have an account? <Link to='/login' className='text-green-100 font-medium'>Sign in</Link></p>
             </Registration>
         </div>
