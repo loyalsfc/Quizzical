@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { collection, addDoc } from "firebase/firestore"; 
+import db from '../firebaseconfig';
+import { Context } from '../Context';
+
 
 function ScoreModal({score}) {
+    const {user, questions} = useContext(Context)
     const [averageScore, setAverageScore] = useState(0)
     useEffect(()=>{
         let avgScore = 0
@@ -20,6 +25,32 @@ function ScoreModal({score}) {
         )
     })
 
+    useEffect(()=>{
+        const que = []
+        questions.forEach(question => {
+            if(question.subject.includes(':')){
+                que.push(question.subject.split(': ')[1])
+            } else {
+                que.push(question.subject)
+            }
+        })
+        
+        const queString = que.toString().replaceAll(",", ", ")
+        
+        const saveScore = async() => { 
+            try {
+                const docRef = await addDoc(collection(db, "results"), {
+                    name: user?.displayName,
+                    topics: queString,
+                    average: averageScore + "%"
+                });
+                console.log("Document written with ID: ", docRef.id);
+            } catch (e) {
+                console.error("Error adding document: ", e);
+            }
+        }
+        saveScore()
+    }, [averageScore])
 
     return (
         <div className='h-screen w-full bg-black/[0.5] flex items-center justify-center fixed top-0 left-0 z-50'>

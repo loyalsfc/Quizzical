@@ -11,6 +11,7 @@ import { ContextProvider } from './Context';
 import QuizPage from './page/QuizPage';
 import Register from './page/Register';
 import Login from './page/Login';
+import LeaderBoard from './page/LeaderBoard';
 
 const router = createBrowserRouter([
     {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
     {
         path:'/login',
         element:<Login />
+    },
+    {
+        path:'/leaderboard',
+        element:<LeaderBoard />
     }
 ]);
 

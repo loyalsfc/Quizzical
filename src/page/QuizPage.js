@@ -13,8 +13,6 @@ function QuizPage() {
     const [showModal, setShowModal] = useState(false)
     const [isComplete, setIsComplete] = useState(false)
 
-    console.log(questions)
-
     function getTotalScore(intervalId){
         setTotalAnswers({...totalAnswers, [questions[currentSubjectIndex].subject]: answers})
         if(currentSubjectIndex === questions.length - 1){
