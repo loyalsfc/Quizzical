@@ -115,7 +115,7 @@ function Register() {
                         </div>
                         <button ref={submitButton} className='bg-green-100 w-full py-3 text-white font-medium'>Sign up</button>
                 </form>
-                <p>Or login with <span className='font-bold text-green-100 mr-3'>Facebook</span> <span onClick={()=>loginWithGoogle(navigate, setUser)} className='font-bold text-green-100'>Google</span></p>
+                <p>Or login with <span className='font-bold text-green-100 mr-1'>Facebook</span> <span onClick={()=>loginWithGoogle(navigate, setUser)} className='font-bold text-green-100'>Google</span></p>
                 <p>Already have an account? <Link to='/login' className='text-green-100 font-medium'>Sign in</Link></p>
             </Registration>
         </div>

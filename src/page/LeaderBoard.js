@@ -13,17 +13,13 @@ function LeaderBoard() {
             let dbItems = []
             querySnapshot.forEach((doc) => {
                 dbItems.push({id: doc.id, data: doc.data()})
-                // console.log(doc.data())
-                // console.log(`${doc.id} => ${doc.data()}`);
             });
-            setScores(dbItems)
+            setScores(dbItems.sort((a, b) => b.data.average - a.data.average))
         }
 
         fetchResults()
         .catch(console.error)
     },[])
-
-    console.log(scores)
 
     return (
         <div className='container mx-auto px-4'>
@@ -47,7 +43,7 @@ function LeaderBoard() {
                                         <td className='py-2'>{index + 1}</td>
                                         <td className='text-left font-semibold'>{score.data?.name}</td>
                                         <td>{score.data?.topics}</td>
-                                        <td>{score.data?.average}</td>
+                                        <td>{score.data?.average}%</td>
                                     </tr>        
                                 )
                             })

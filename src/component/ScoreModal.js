@@ -42,7 +42,7 @@ function ScoreModal({score}) {
                 const docRef = await addDoc(collection(db, "results"), {
                     name: user?.displayName,
                     topics: queString,
-                    average: averageScore + "%"
+                    average: averageScore
                 });
                 console.log("Document written with ID: ", docRef.id);
             } catch (e) {

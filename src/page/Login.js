@@ -97,7 +97,7 @@ function Login() {
                             </div>
                             <button ref={signButton} className='bg-green-100 w-full py-3 text-white font-medium'>Sign in</button>
                 </form>
-                <p>Or login with <span className='font-bold text-green-100 mr-3'>Facebook</span> <span onClick={handleGoogleLogin} className='cursor-pointer font-bold text-green-100'>Google</span></p>
+                <p>Or login with <span className='font-bold text-green-100 mr-1'>Facebook</span> <span onClick={handleGoogleLogin} className='cursor-pointer font-bold text-green-100'>Google</span></p>
                 <p>Already have an account? <Link to='/register' className='text-green-100 font-medium'>Sign up</Link></p>
             </Registration>
         </div>
