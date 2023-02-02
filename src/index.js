@@ -12,6 +12,8 @@ import QuizPage from './page/QuizPage';
 import Register from './page/Register';
 import Login from './page/Login';
 import LeaderBoard from './page/LeaderBoard';
+import About from './page/About';
+import Features from './page/Features';
 
 const router = createBrowserRouter([
     {
@@ -37,6 +39,14 @@ const router = createBrowserRouter([
     {
         path:'/leaderboard',
         element:<LeaderBoard />
+    },
+    {
+        path:'/about-us',
+        element: <About />
+    },
+    {
+        path:'/features',
+        element: <Features />
     }
 ]);
 
