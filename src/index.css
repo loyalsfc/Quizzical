@@ -19,6 +19,9 @@
     .form-input{
         @apply block focus:outline-0 text-green-100 
     }
+    .feature:hover div{
+        @apply bg-white text-green-100
+    }
 }
 .bg-green-200{
     background-color: #45C486 !important;

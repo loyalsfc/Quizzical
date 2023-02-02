@@ -1,4 +1,4 @@
-import { getAuth, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import React, { useContext, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '../assets/logo.png'
@@ -32,7 +32,7 @@ function Header() {
                 </svg>
                 <Navigation user={user} logOut={logOut} navigate={toggleNav}/>
             </div>
-            <Link to='/'><img src={logo} /></Link>
+            <Link to='/'><img src={logo} alt="Logo"/></Link>
             <nav className='hidden md:block'>
                 <Navigation user={user} logOut={logOut} navigate={navigate}/>
             </nav>
@@ -47,7 +47,7 @@ function Navigation({user, logOut, navigate}){
     return(
         <ul className='flex flex-col md:flex-row gap-6 items-center text-grey-100'>
             <li className='cursor-pointer'>How it works?</li>
-            <li className='cursor-pointer'>Features</li>
+            <li className='cursor-pointer'><Link to="/features">Features</Link></li>
             <li className='cursor-pointer'><Link to="/about-us">About Us</Link></li>
             {user ? (<li className='profile cursor-pointer flex items-center text-green-100 relative'>
                 <svg className='mr-2' width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
