@@ -1,4 +1,6 @@
+import { onAuthStateChanged } from 'firebase/auth'
 import React, { createContext, useEffect, useState } from 'react'
+import { auth } from './firebaseconfig'
 const Context = createContext()
 
 function ContextProvider({children}) {
@@ -482,10 +484,16 @@ function ContextProvider({children}) {
     const [user, setUser] = useState(null)
 
     useEffect(()=>{
-        if(localStorage.auth){
-            setUser(JSON.parse(localStorage.getItem('auth')))
-        }
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+              // User is signed in, see docs for a list of available properties
+              // https://firebase.google.com/docs/reference/js/firebase.User
+              setUser(user)
+            }
+        });
     },[])
+
+    console.log(user)
 
     // useEffect(()=>{
     //     fetch('https://opentdb.com/api_category.php')
@@ -494,13 +502,13 @@ function ContextProvider({children}) {
     // },[])
 
     function fetchQuestions(){
-    //     let fetchedQuestion = []
-    //     selectCategories.forEach(cat => {
-    //         fetch(`https://opentdb.com/api.php?amount=10&category=${cat.id}&difficulty=easy&type=multiple`)
-    //         .then(res =>res.json())
-    //         .then(data => fetchedQuestion.push({subject: cat.name, question: data.results}))
-    //     });
-    //     setQuestions(fetchedQuestion)
+        // let fetchedQuestion = []
+        // selectCategories.forEach(cat => {
+        //     fetch(`https://opentdb.com/api.php?amount=10&category=${cat.id}&difficulty=easy&type=multiple`)
+        //     .then(res =>res.json())
+        //     .then(data => fetchedQuestion.push({subject: cat.name, question: data.results}))
+        // });
+        // setQuestions(fetchedQuestion)
     }
 
     return (

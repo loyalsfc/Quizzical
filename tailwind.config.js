@@ -13,6 +13,9 @@ module.exports = {
         'green-200': "#45C486",
         primary: "#EDE8E3",
         'light-grey': "#E0E0E0"
+      },
+      backgroundImage:{
+        header: "url('https://images.pexels.com/photos/2325446/pexels-photo-2325446.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')"
       }
     },
   },

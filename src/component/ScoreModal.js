@@ -7,7 +7,7 @@ import { Context } from '../Context';
 
 function ScoreModal({score}) {
     const {user, questions} = useContext(Context)
-    const [averageScore, setAverageScore] = useState(0)
+    const [averageScore, setAverageScore] = useState(null)
     useEffect(()=>{
         let avgScore = 0
         score.forEach(score => {
@@ -49,7 +49,24 @@ function ScoreModal({score}) {
                 console.error("Error adding document: ", e);
             }
         }
-        saveScore()
+        const saveHistory = async() => { 
+            try {
+                const docRef = await addDoc(collection(db, "users", "history", user.uid), {
+                    date: new Date(),
+                    topics: queString,
+                    averageScore: averageScore
+                });
+                console.log("Document written with ID: ", docRef.id);
+            } catch (e) {
+                console.error("Error adding document: ", e);
+            }
+        }
+
+        if(user != null){
+            console.log('Hi')
+            saveScore()
+            saveHistory()
+        }
     }, [averageScore])
 
     return (

@@ -14,6 +14,7 @@ import Login from './page/Login';
 import LeaderBoard from './page/LeaderBoard';
 import About from './page/About';
 import Features from './page/Features';
+import Profile from './page/Profile';
 
 const router = createBrowserRouter([
     {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
     {
         path:'/features',
         element: <Features />
+    },
+    {
+        path:'/profile',
+        element: <Profile />
     }
 ]);
 

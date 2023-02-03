@@ -1,23 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { collection, getDocs } from "firebase/firestore"; 
-import db from '../firebaseconfig';
 import Header from '../component/Header';
+import { fetchResults } from '../utils';
 
 
 function LeaderBoard() {
     const [scores, setScores] = useState([])
 
     useEffect(()=>{
-        async function fetchResults() {
-            const querySnapshot = await getDocs(collection(db, "results"));
-            let dbItems = []
-            querySnapshot.forEach((doc) => {
-                dbItems.push({id: doc.id, data: doc.data()})
-            });
-            setScores(dbItems.sort((a, b) => b.data.average - a.data.average))
-        }
-
-        fetchResults()
+        fetchResults("results", setScores)
         .catch(console.error)
     },[])
 

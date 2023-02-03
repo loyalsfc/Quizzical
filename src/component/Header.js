@@ -60,7 +60,7 @@ function Navigation({user, logOut, navigate}){
                 </svg>
                 <div className='dropdown bg-white py-1 rounded-md md:shadow absolute top-full'>
                     <ul>
-                        <li className='hover:bg-gray-100 sm:border-b py-2 sm:py-1 px-5'>Profile</li>
+                        <li className='hover:bg-gray-100 sm:border-b py-2 sm:py-1 px-5'><Link to="/profile">Profile</Link></li>
                         <li className='hover:bg-gray-100 sm:border-b py-2 sm:py-1 px-5'><Link to='/leaderboard'>Leaderboard</Link></li>
                         <li className='hover:bg-gray-100 sm:border-b py-2 sm:py-1 px-5'>Settings</li>
                         <li onClick={()=>{logOut(); navigate()}} className='hover:bg-gray-100 pt-1 px-5'>Logout</li>
