@@ -62,7 +62,7 @@ function ScoreModal({score}) {
             }
         }
 
-        if(user != null){
+        if(averageScore){
             console.log('Hi')
             saveScore()
             saveHistory()

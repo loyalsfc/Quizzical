@@ -495,20 +495,20 @@ function ContextProvider({children}) {
 
     console.log(user)
 
-    // useEffect(()=>{
-    //     fetch('https://opentdb.com/api_category.php')
-    //     .then(res => res.json())
-    //     .then(data => setCategories(data.trivia_categories))
-    // },[])
+    useEffect(()=>{
+        fetch('https://opentdb.com/api_category.php')
+        .then(res => res.json())
+        .then(data => setCategories(data.trivia_categories))
+    },[])
 
     function fetchQuestions(){
-        // let fetchedQuestion = []
-        // selectCategories.forEach(cat => {
-        //     fetch(`https://opentdb.com/api.php?amount=10&category=${cat.id}&difficulty=easy&type=multiple`)
-        //     .then(res =>res.json())
-        //     .then(data => fetchedQuestion.push({subject: cat.name, question: data.results}))
-        // });
-        // setQuestions(fetchedQuestion)
+        let fetchedQuestion = []
+        selectCategories.forEach(cat => {
+            fetch(`https://opentdb.com/api.php?amount=10&category=${cat.id}&difficulty=easy&type=multiple`)
+            .then(res =>res.json())
+            .then(data => fetchedQuestion.push({subject: cat.name, question: data.results}))
+        });
+        setQuestions(fetchedQuestion)
     }
 
     return (
