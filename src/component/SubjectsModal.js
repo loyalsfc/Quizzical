@@ -9,7 +9,7 @@ function SubjectsModal({hideModal}) {
     const {categories, selectCategories, setSelectedCategories, fetchQuestions} = useContext(Context)
     const navigate = useNavigate()
 
-
+    //Map through all the available topics and display them on the modal
     const categoriesItem = categories.map(cat => {
         const {id, name} = cat
         return(
@@ -19,7 +19,8 @@ function SubjectsModal({hideModal}) {
                 >
                         {name.split(":").length == 2 ? name.split(":")[1] : name.split(":")[0]}
                 </span>
-                {selectCategories.some(cat => cat.id == id) && 
+                {//Check if the categories is selected and include the remove button
+                selectCategories.some(cat => cat.id == id) && 
                 <button onClick={(e)=>removeCategory(e, id)} className="bg-black px-2">
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M2.11898 11.2845L6.10586 7.2976L10.0927 11.2845L11.4346 9.94259L7.44774 5.95571L11.4346 1.96884L10.0927 0.626953L6.10586 4.61383L2.11898 0.626953L0.7771 1.96884L4.76398 5.95571L0.7771 9.94259L2.11898 11.2845Z" fill="white"/>
@@ -30,21 +31,30 @@ function SubjectsModal({hideModal}) {
         )
     })
 
+    //Removing a topic from selected categories
     const removeCategory = (e, id) => {
+        //Prevent event bubbling
         e.stopPropagation()
+        // filter out the category 
         setSelectedCategories(prevItem => {
             return prevItem.filter(item => item.id != id)
         })
     }
 
+    //Adding topics to selected
     const selectCategory = (id, name) => {
+        //Check if the topic has not been included and selected topic is more than three
         if(!selectCategories.some(cat => cat.id == id) && selectCategories.length < 3){
+            //Add to the topic to selected
             setSelectedCategories([...selectCategories, {id: id, name: name}])
         } else if(selectCategories.length >= 3){
+            //If the topic selected is up to 3, show toast
             toast("You cannot add more than 3")
         }
     }
 
+    //Featch questions for the selected topics 
+    //Navigate to the instruction page
     function handleClick(e){
         e.target.disabled = true; 
         fetchQuestions()
@@ -64,7 +74,7 @@ function SubjectsModal({hideModal}) {
                     {categoriesItem}
                 </div>
                 <button 
-                    disabled={selectCategories.length ? false : true}
+                    disabled={selectCategories.length === 3 ? false : true}
                     onClick={handleClick}
                     className='text-sm bg-green-100 py-2 px-6 font-medium text-white mt-2 sm:mt-11 mr-4 md:mr-0 ml-auto block disabled:opacity-50'
                 >

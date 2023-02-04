@@ -7,6 +7,7 @@ function Instructions() {
     const navigate = useNavigate()
     const {user} = useContext(Context)
     
+    //Check if user doesn't exist, and navigate to the login page
     useEffect(()=>{
         if(!user){
             navigate('/login')

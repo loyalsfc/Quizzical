@@ -10,18 +10,23 @@ function Profile() {
     const [history, setHistory] = useState({result: [], isLoading: true})
 
     useEffect(()=>{
+        // Fetch the result from the database
         async function fetchResults() {
             const querySnapshot = await getDocs(collection(db, 'users', 'history', user?.uid));
+            //initialize empty array to save database result
             let dbItems = []
+            //Loop through the array and save the id and data object in the array
             querySnapshot.forEach((doc) => {
                 dbItems.push({id: doc.id, data: doc.data()})
             });
+            //Sort the arrays according to their time submitted and update the history state
             setHistory({
                 result: dbItems.sort((a,b) => b.data.date.toDate().getTime() -  a.data.date.toDate().getTime()),
                 isLoading: false
             })
         }        
 
+        //Check if user is sign in and run the fetchResult function
         if(user){
             fetchResults()
             .catch(console.error)
@@ -54,10 +59,13 @@ function Profile() {
                             </tr>
                         </thead>
                         <tbody className='text-center'>
-                            {history.isLoading ? (
+                            {//Check if isLoading is true and display the lazy loading components
+                            //Once loading is completed map through the histories and display them in history table
+                            history.isLoading ? (
                                 <LazyLoading />
                             ):( 
                                     history.result.map((item, index) => {
+                                        //Converting date format to display them
                                         const date = new Date(item.data.date.toDate())
                                         const yyyy = date.getFullYear().toString().slice(2)
                                         const mm = (date.getMonth() + 1).toString().padStart(2, 0)

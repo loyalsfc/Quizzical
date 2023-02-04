@@ -3,7 +3,9 @@ import db from './firebaseconfig';
 
 function signInUser(credential, navigate, setUser){
     const user = credential.user;
+    //Get the update the user state once sign in completed
     setUser(user);
+    //Navigate to the dashboard
     navigate('/');
 }
 

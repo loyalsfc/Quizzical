@@ -11,9 +11,12 @@ function LandingPage() {
     const navigate = useNavigate()
 
     const handleClick = () => {
+        //Check if user is sign in
         if(user){
+            //If user sign in, show the topic selection page
             setShowModal(true)
         } else {
+            //If not, redirect to login page
             navigate('/login')
         }
     }

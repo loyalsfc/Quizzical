@@ -10,12 +10,16 @@ function LeaderBoard() {
     const [scores, setScores] = useState({data: [], isLoading: true})
 
     useEffect(()=>{
+        // Fetch the result from the database
         async function fetchResults(database, callBack) {
             const querySnapshot = await getDocs(collection(db, database));
+            //initialize empty array to save database result
             let dbItems = []
+            //Loop through the array and save the id and data object in the array
             querySnapshot.forEach((doc) => {
                 dbItems.push({id: doc.id, data: doc.data()})
             });
+            //Sort the arrays according to their average scores and update the scores state
             callBack({
                         data: dbItems.sort((a, b) => b.data.average - a.data.average),
                         isLoading: false
@@ -40,7 +44,9 @@ function LeaderBoard() {
                             </tr>
                         </thead>
                         <tbody className='text-center'>
-                        {scores.isLoading ? (
+                        {//Check if isLoading is true and display the lazy loading components
+                        //Once loading is completed map through the scores and display them in leaderboard table
+                        scores.isLoading ? (
                             <LazyLoading />
                             ):(
                                 scores.data.map((score, index) => {

@@ -1,6 +1,7 @@
 import React from 'react'
 
 function AuthenticationError({note, setShowError}) {
+    //Show notification when there is error in authentication
     return (
         <div className='bg-red-100 text-red-500 text-center text-sm py-4 relative'>
             <svg onClick={()=>setShowError(false)} className='absolute right-2 top-2' width="12" height="12" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">

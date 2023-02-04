@@ -1,7 +1,8 @@
 import React from 'react'
 
 function LazyLoading() {
-    
+    //Lazy loading components while for tables
+    //Displayed while data is still loading from the API end point
     return (
         <>
             <tr className='even:bg-green-100/[0.1]'>

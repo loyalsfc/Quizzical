@@ -10,13 +10,15 @@ function Header() {
     const {user, setUser} = useContext(Context)
     const navigate = useNavigate()
     const mobileMenu = useRef();
+
     function toggleNav(){
+        //Toggling the mobile menu by setting the width to zero
         mobileMenu.current.classList.toggle('w-0')
     }
 
     function logOut(){
+        // Handles signing out user account
         signOut(auth).then(() => {
-            localStorage.removeItem('auth')
             setUser(null)
             navigate('/')
         }).catch((error) => {
@@ -49,6 +51,7 @@ function Navigation({user, logOut, navigate}){
             <li className='cursor-pointer'>How it works?</li>
             <li className='cursor-pointer'><Link to="/features">Features</Link></li>
             <li className='cursor-pointer'><Link to="/about-us">About Us</Link></li>
+            {/* check if user exist, if yes, show the user menu, otherwise display login button */}
             {user ? (<li className='profile cursor-pointer flex items-center text-green-100 relative'>
                 <svg className='mr-2' width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1.19878 16.4067C0.543528 12.8479 3.08021 10.797 4.57264 9.86288C1.60252 6.87452 2.96059 2.87885 4.57264 1.54341C6.44837 -0.0104475 9.80586 -0.716307 11.9981 1.9531C14.7051 5.24942 13.1265 8.54488 11.9981 9.86288C12.7261 10.5038 15.2288 12.1698 15.5958 15.5941C16.0588 19.9146 2.01785 20.8552 1.19878 16.4067Z" fill="#31CD63"/>

@@ -1,5 +1,5 @@
 import React, {useContext, useRef, useState} from 'react'
-import Registration, {InputWrapper} from './Registration'
+import Registration, {InputWrapper} from '../component/Registration'
 import { Link, useNavigate } from 'react-router-dom'
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../firebaseconfig';
@@ -19,21 +19,27 @@ function Register() {
     })
     const submitButton = useRef()
 
-
+    //Handle changes in form data
     const handleChange = (e) => {
         const {id, value} = e.target
         setFormData({...formData, [id]: value})
     }
 
+    //Handle form submit
     const handleSubmit = (e) => {
         e.preventDefault()
+        //Change the submit button text to a loader
         submitButton.current.innerHTML = '<div class="loader mx-auto"></div>'
+        //Create account  using Email and password with firebase
         createUserWithEmailAndPassword(auth, formData.email, formData.password)
         .then((userCredential) => {
+            // When account creation is successful 
+            //update the user's name and set a dummy profile image for user profile
             updateProfile(auth.currentUser, {
                 displayName: formData.name, photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
               }).then(() => {
                 // Profile updated!
+                //Run the signInUser function
                 signInUser(userCredential, navigate, setUser)
               }).catch((error) => {
                 // An error occurred
@@ -43,9 +49,11 @@ function Register() {
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
+            //Check for error display and display error to user
             if(errorCode === "auth/email-already-in-use"){
                 setShowError(true);
             }
+            //Change the submit button text back to Sign up
             submitButton.current.innerHTML = 'Sign up'
         });
     }

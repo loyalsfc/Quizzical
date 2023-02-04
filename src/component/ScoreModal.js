@@ -8,14 +8,21 @@ import { Context } from '../Context';
 function ScoreModal({score}) {
     const {user, questions} = useContext(Context)
     const [averageScore, setAverageScore] = useState(null)
+
     useEffect(()=>{
+        //Calculate the average score of user
         let avgScore = 0
+        //Loop through users scores on each questions topics 
+        //Add everything together
         score.forEach(score => {
             avgScore += score.score
         });
+        //Update the averageScore state by getting totalScore and divide by number of topics
+        //Multiply by 10 get the percentage of the average score
         setAverageScore((avgScore / score.length).toFixed(1) * 10)
     },[])
 
+    //Display score of each topic on the Score modal
     const scores = score.map((score, index) => {
         return (
             <div className='flex justify-between' key={index}>
@@ -26,17 +33,24 @@ function ScoreModal({score}) {
     })
 
     useEffect(()=>{
+        //Saving user result to the database
+
+        //Loop through the question and save the topic in an array
         const que = []
         questions.forEach(question => {
             if(question.subject.includes(':')){
+                //Check if the topic has a prefix and remove the prefix
+                //Topics with prefix has : which can be used to split it
                 que.push(question.subject.split(': ')[1])
             } else {
                 que.push(question.subject)
             }
         })
         
+        //Convert the array of topics to string
         const queString = que.toString().replaceAll(",", ", ")
         
+        //Saving score to results database to show in leaderboard
         const saveScore = async() => { 
             try {
                 const docRef = await addDoc(collection(db, "results"), {
@@ -44,11 +58,13 @@ function ScoreModal({score}) {
                     topics: queString,
                     average: averageScore
                 });
-                console.log("Document written with ID: ", docRef.id);
+                // console.log("Document written with ID: ", docRef.id);
             } catch (e) {
                 console.error("Error adding document: ", e);
             }
         }
+
+        //Saving result to the user's personal database to show in user history
         const saveHistory = async() => { 
             try {
                 const docRef = await addDoc(collection(db, "users", "history", user.uid), {
@@ -62,8 +78,8 @@ function ScoreModal({score}) {
             }
         }
 
-        if(averageScore){
-            console.log('Hi')
+        //Check if average score is not null and run the save functions
+        if(averageScore != null){
             saveScore()
             saveHistory()
         }

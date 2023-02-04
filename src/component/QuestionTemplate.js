@@ -12,6 +12,7 @@ function QuestionTemplate({currentSubject, submitQuiz, setAnswers}) {
     const [showModal, setShowModal] = useState(true)
 
     useEffect(()=>{
+        //Calculating the time duration remaining once the start modal is dismissed
         if(!showModal){
             const interval = setInterval(()=>{
                 setDuration(prevValue => {
@@ -21,48 +22,67 @@ function QuestionTemplate({currentSubject, submitQuiz, setAnswers}) {
                     return prevValue
                 })
             },1000)
+            //Getting the interval Id to stop countdown once user clicks on submit
             setIntervalId(interval)
             return () => clearInterval(interval)
         }
     },[showModal])
 
     useEffect(()=>{
+        // Check if duration is zero, if yes, automatically submit quiz
         if(duration === 0){
             submitQuiz(intervalId)
         }
     },[duration])
 
     useEffect(()=>{
+        //Once user start a new topic
+        //setting question count to 0
         setCurrentQuestion(0)
+        //Setting duration to 100 to coundown
         setDuration(100)
+        //Display
         setShowModal(true)
+        //Bugs in API that makes some topics return empty question.
+        //In that case, submit action is performed for user to move to the next question 
         if(questions.length === 0){
             submitQuiz(intervalId)
         }
     },[currentSubject])
 
     function nextQuestion(){
+        //Setting the current question display to user
         setCurrentQuestion(prevValue => prevValue + 1)
     }
 
     function selectiOption(event){
         const {name, value} = event.target
+        //Saving the user's answer to the answer object 
+        //Questions serve as property while the answer serve as value in the object
         setAnswers(prevAnswers => {
             return {...prevAnswers, [name]: value}
         })
     }
 
     function markOption(event){
+        //Physical representation of the option the user selected
+        //Remove the green active background on every question option 
         document.querySelectorAll('label').forEach(item=>{
             item.classList.remove('bg-green-200')
         })
+        //Assign the green background to the current selected option
         event.currentTarget.classList.add('bg-green-200')
     }
 
     const displayQuestion = questions.map((question, index) => {
+        //Get the question which index matches the currentQuestion state
         if(index == currentQuestion){
+            //Randomly insert the correct answer into the incorrect answers array
+            //Generate a Random Number less than 4
             const randomIndex = Math.floor(Math.random() * 4)
+            //Check if correct answer is not in the incorrect answer array
             if(!question.incorrect_answers.includes(question.correct_answer)){
+                //Randomly insert the correct answer in the incorrect answer array with the index number randomly generated
                 question.incorrect_answers.splice(randomIndex, 0, question.correct_answer)
             }
             return (
@@ -70,6 +90,7 @@ function QuestionTemplate({currentSubject, submitQuiz, setAnswers}) {
                     <h1 className='text-[#191D63] text-2xl leading-[136%] text-center font-semibold my-6'>{question.question.replaceAll('&quot;', '"').replaceAll('&#039;', "'").replaceAll('&amp;','&')}</h1>
                     <div className='flex flex-col gap-4 max-w-[450px] mx-auto'>
                         {
+                            //Mapping the answers for user to be able to select appropriate option 
                             question.incorrect_answers.map((option, optionIndex)=>{
                                 return(
                                     <div key={`p-${optionIndex}`}>
@@ -88,6 +109,7 @@ function QuestionTemplate({currentSubject, submitQuiz, setAnswers}) {
         }
     })
 
+    //Progress bar showing user how far they have gone with their questions
     const progress = <>
                     <div className='w-full md:w-[250px] h-4 rounded-full bg-white md:bg-primary overflow-hidden'>
                             <div className='h-full bg-green-100 rounded-full' style={{width: ((currentQuestion + 1) / questions.length) * 100 + '%'}}></div>
@@ -97,7 +119,11 @@ function QuestionTemplate({currentSubject, submitQuiz, setAnswers}) {
 
     return (
             <div className='flex h-screen flex-col justify-between relative'>
-                {showModal && <div className='bg-black/[0.5] w-full left-0 border h-screen fixed z-20 flex items-center justify-center'>
+                
+                {
+                //Start modal indicating the topic, number of question and duration they have to answer answer the questions
+                //Modal get dismissed once the user click start
+                showModal && <div className='bg-black/[0.5] w-full left-0 border h-screen fixed z-20 flex items-center justify-center'>
                     <div className='w-[500px] h-[400px] max-w-[95%] bg-white p-6 sm:p-12 flex flex-col justify-center'>
                         <div className='w-full font-medium text-lg'>
                             <div className='py-4 flex'>
@@ -156,6 +182,7 @@ function QuestionTemplate({currentSubject, submitQuiz, setAnswers}) {
                                 <path className='fill-grey' d="M5.90063 4.01686L0.240085 7.28498L0.240085 0.748744L5.90063 4.01686Z" />
                             </svg>
                         </button> 
+                        {/* Show the submit button once the user reaches the last question  */}
                         <button onClick={()=>submitQuiz(intervalId)} className={`navigation-btn ${currentQuestion != questions.length - 1 ? "hidden" : "flex"}`}>Submit</button>
                 </footer>
             </div>

@@ -1,6 +1,6 @@
 import React, {useContext, useRef, useState} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import Registration, {InputWrapper} from './Registration'
+import Registration, {InputWrapper} from '../component/Registration'
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebaseconfig';
 import AuthenticationError from '../component/AuthenticationError';
@@ -18,30 +18,37 @@ function Login() {
         password: ''
     })
 
+    //Update the form data state
     const handleChange = (e) => {
         const {id, value} = e.target
         setFormData({...formData, [id]: value})
     }
 
+    //Handle form submit
     function handleSubmit(e){
         e.preventDefault();
+        //Change the submit button text to a loader
         signButton.current.innerHTML = '<div class="loader mx-auto"></div>';
+        //Authentication with Email and password with firebase
         signInWithEmailAndPassword(auth, formData.email, formData.password)
         .then((userCredential) => {
-            // Signed in 
+            // Signed in successful, run the SignInUser function
             signInUser(userCredential, navigate, setUser)
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
+            //Check for error display and display the error to the user
             if(errorCode === 'auth/user-not-found' || errorCode === 'auth/wrong-password'){
                 setShowError(true)
             }
+            //Change the submit button text back to sign in
             signButton.current.innerHTML = 'Sign in';
         });
     }
 
     function handleGoogleLogin(){
+        //Authentication with google
         googleLoginAuthentication(navigate, setUser)
     }
 

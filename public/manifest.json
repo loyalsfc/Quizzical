@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Quizzical",
+  "name": "A webapp for creating logo",
   "icons": [
     {
       "src": "favicon.ico",
