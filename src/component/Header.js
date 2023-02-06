@@ -65,7 +65,7 @@ function Navigation({user, logOut, navigate}){
                     <ul>
                         <li className='hover:bg-gray-100 sm:border-b py-2 sm:py-1 px-5'><Link to="/profile">Profile</Link></li>
                         <li className='hover:bg-gray-100 sm:border-b py-2 sm:py-1 px-5'><Link to='/leaderboard'>Leaderboard</Link></li>
-                        <li className='hover:bg-gray-100 sm:border-b py-2 sm:py-1 px-5'>Settings</li>
+                        <li className='hover:bg-gray-100 sm:border-b py-2 sm:py-1 px-5'><Link to="/settings">Settings</Link></li>
                         <li onClick={()=>{logOut(); navigate()}} className='hover:bg-gray-100 pt-1 px-5'>Logout</li>
                     </ul>
                 </div>

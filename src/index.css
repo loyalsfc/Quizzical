@@ -25,6 +25,12 @@
     .lazy-load{
         @apply w-20 max-w-full bg-gray-300 h-4 rounded-full mx-auto
     }
+    .image-wrapper:hover div{
+        @apply flex
+    }
+    .input-style{
+        @apply border border-green-100 py-1 px-2 rounded-md disabled:bg-gray-200
+    }
 }
 .bg-green-200{
     background-color: #45C486 !important;

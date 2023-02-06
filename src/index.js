@@ -15,6 +15,10 @@ import LeaderBoard from './page/LeaderBoard';
 import About from './page/About';
 import Features from './page/Features';
 import Profile from './page/Profile';
+import Settings from './page/Settings';
+import PhotoSetting from './component/PhotoSetting';
+import ProfileSettings from './component/ProfileSettings';
+import ChangePassword from './component/ChangePassword';
 
 const router = createBrowserRouter([
     {
@@ -52,6 +56,25 @@ const router = createBrowserRouter([
     {
         path:'/profile',
         element: <Profile />
+    },
+    {
+        path:'/settings',
+        element:<Settings />,
+        children: [
+            {
+                // path: '/settings/profile-picture',
+                element: <PhotoSetting />,
+                index: true
+            },
+            {
+                path: '/settings/profile',
+                element: <ProfileSettings />
+            },
+            {
+                path: '/settings/password',
+                element: <ChangePassword />
+            }
+        ]
     }
 ]);
 
