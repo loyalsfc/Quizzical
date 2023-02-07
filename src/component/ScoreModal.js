@@ -58,7 +58,6 @@ function ScoreModal({score}) {
                     topics: queString,
                     average: averageScore
                 });
-                // console.log("Document written with ID: ", docRef.id);
             } catch (e) {
                 console.error("Error adding document: ", e);
             }
@@ -72,7 +71,6 @@ function ScoreModal({score}) {
                     topics: queString,
                     averageScore: averageScore
                 });
-                console.log("Document written with ID: ", docRef.id);
             } catch (e) {
                 console.error("Error adding document: ", e);
             }

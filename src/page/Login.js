@@ -77,8 +77,8 @@ function Login() {
                                     />
                                 </InputWrapper>
                                 <InputWrapper 
-                                        id='password'
-                                        label='Password'
+                                    id='password'
+                                    label='Password'
                                 >
                                     <input
                                         id='password'
@@ -100,7 +100,7 @@ function Login() {
                                     />
                                     <label className='ml-2' htmlFor='remember-me'>Remember Me</label>
                                 </div>
-                                <p>Forgot password?</p>
+                                <p><Link to="/reset-password">Forgot password?</Link></p>
                             </div>
                             <button ref={signButton} className='bg-green-100 w-full py-3 text-white font-medium'>Sign in</button>
                 </form>

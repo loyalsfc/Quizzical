@@ -1,11 +1,13 @@
-import React, {useContext, useRef, useState} from 'react'
-import { Context } from '../Context'
+import React, {useRef, useState} from 'react'
 import InputWrapper from './Wrapper'
+import { updatePassword } from "firebase/auth";
+import { auth } from '../firebaseconfig';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function ChangePassword() {
-    const {user} = useContext(Context)
     const passwordAlert = useRef()
-
+    const submitButton = useRef()
     const [passwords, setPasswords] = useState({
         newPassword: '',
         confirmPassword: '',
@@ -19,6 +21,9 @@ function ChangePassword() {
     function handleSubmitPasswordChange(e){
         e.preventDefault()
         const {newPassword, confirmPassword} = passwords
+        //Change the submit button text to a loader
+        submitButton.current.innerHTML = '<div class="loader mx-auto"></div>';
+        //Update the user password
         if(newPassword !== confirmPassword){
             passwordAlert.current.textContent = 'Password Does not match'
             passwordAlert.current.classList.remove('hidden')
@@ -32,11 +37,20 @@ function ChangePassword() {
             passwordAlert.current.classList.remove('hidden')
             return
         }
-        alert('Submitted')
+        const user = auth.currentUser;
+        updatePassword(user, newPassword).then(() => {
+        // Update successful.
+            toast('Password Reset Successful')
+            submitButton.current.innerHTML = 'Update'
+        }).catch((error) => {
+            toast('An error occured')
+            submitButton.current.innerHTML = 'Update'
+        });
     }
 
     return (
         <article>
+            <ToastContainer  position="top-center"/>
             <form className="px-4" onSubmit={handleSubmitPasswordChange}>
                 <InputWrapper id='newPassword' label='Enter New Password'>
                     <input
@@ -59,7 +73,7 @@ function ChangePassword() {
                     />
                 </InputWrapper>
                 <p ref={passwordAlert} className='my-2 text-red-500 hidden text-sm'></p>
-                <button className='bg-green-100 text-white font-medium w-full rounded py-1.5'>Update</button>
+                <button ref={submitButton} className='bg-green-100 text-white font-medium w-full rounded py-1.5'>Update</button>
             </form>
         </article>
     )

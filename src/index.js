@@ -19,6 +19,7 @@ import Settings from './page/Settings';
 import PhotoSetting from './component/PhotoSetting';
 import ProfileSettings from './component/ProfileSettings';
 import ChangePassword from './component/ChangePassword';
+import ResetPassword from './page/ResetPassword';
 
 const router = createBrowserRouter([
     {
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
                 element: <ChangePassword />
             }
         ]
+    },
+    {
+        path:'/reset-password',
+        element: <ResetPassword />
     }
 ]);
 
