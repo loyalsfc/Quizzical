@@ -25,25 +25,34 @@ function ChangePassword() {
         submitButton.current.innerHTML = '<div class="loader mx-auto"></div>';
         //Update the user password
         if(newPassword !== confirmPassword){
+            //Throw an error if the user passwords doesn't match
             passwordAlert.current.textContent = 'Password Does not match'
             passwordAlert.current.classList.remove('hidden')
             return
         } else if(newPassword === "" || confirmPassword  === ""){
+            //Throw an error if the newpassword or confirmpassword is empty
             passwordAlert.current.textContent = 'Enter all fields'
             passwordAlert.current.classList.remove('hidden')
             return
         } else if(newPassword.length < 8){
+            //Throw an error if the user password is less than eight chaacter
             passwordAlert.current.textContent = 'Password Cannot be less than 8'
             passwordAlert.current.classList.remove('hidden')
             return
         }
+        //Get user credentials
         const user = auth.currentUser;
+        //Update user password
         updatePassword(user, newPassword).then(() => {
         // Update successful.
+            //Displaying toast to confirm password update is successful
             toast('Password Reset Successful')
+            //Set the button text back to previous
             submitButton.current.innerHTML = 'Update'
         }).catch((error) => {
+            //Show error notification
             toast('An error occured')
+            //Set the button text back to previous
             submitButton.current.innerHTML = 'Update'
         });
     }

@@ -12,27 +12,36 @@ function ResetPassword() {
     const submitButton = useRef()
     const [showError, setShowError] = useState(false)
 
+    //Handles submitting password request form
     function handleSubmit(e){
         e.preventDefault();
+        //Change button text to loader while user is waiting
         submitButton.current.innerHTML = '<div class="loader mx-auto"></div>';
+        //Password reset with firebase
         sendPasswordResetEmail(auth, email)
         .then(() => {
             // Password reset email sent!
+            //Change the button text back to initial
             submitButton.current.innerHTML = 'Reset Password';
+            //Show toast that password reset link have been sent
             toast("Password reset link sent")
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
+            //Show notification that an error occured
             setShowError(true)
+            //Change the button text back to initial
             submitButton.current.innerHTML = 'Reset Password';
         });
     }
 
+    //Update the email value state
     function handleChange(e){
         const value = e.target.value;
         setEmail(value)
     }
+
     return (
            <Registration>
                 <ToastContainer  position="top-center"/>

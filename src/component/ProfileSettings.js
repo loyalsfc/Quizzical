@@ -13,6 +13,7 @@ function ProfileSettings() {
     const notifText = useRef()
 
     useEffect(()=>{
+        //Set the initial user data in the input box
         setFormData({
             fullName: user?.displayName,
             email: user?.email,
@@ -20,6 +21,7 @@ function ProfileSettings() {
         })
     }, [user])
 
+    //Updating the formData state 
     function handleChange(e){
         const {value, id} = e.target
         setFormData({...formData, [id]: value})
@@ -27,9 +29,10 @@ function ProfileSettings() {
     
     function handleSubmit(e){
         e.preventDefault();
-        //Desctructure formData onkect
+        //Desctructure formData onsubmit
         const {fullName, phoneNumber} = formData
         if(fullName === ""){
+            //Check if user full name is empty and throw an error
             notifText.current.classList.remove('hidden');
             return;
         }
@@ -40,11 +43,15 @@ function ProfileSettings() {
             displayName: fullName, phoneNumber: phoneNumber,
             }).then(() => {
                 // Profile updated!
+                //Show Success notification to user
                 toast("Profile Updated Successfully")
+                //Restore button text back to initial
                 submitButton.current.innerHTML = 'Update';
             }).catch((error) => {
                 // An error occurred
+                //Show error notification
                 toast("An error occured")
+                //Restore button text back to initial
                 submitButton.current.innerHTML = 'Update';
         });
     }

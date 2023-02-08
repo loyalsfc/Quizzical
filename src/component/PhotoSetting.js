@@ -9,6 +9,7 @@ function PhotoSetting() {
     const {user} = useContext(Context);
     const profileImage = useRef();
 
+    //Function to convert user upload image to base64 image
     function convertBase(file){
         return new Promise((resolve, reject) => {
             const fileReader = new FileReader();
@@ -25,17 +26,21 @@ function PhotoSetting() {
     }
 
     async function handleProfileChange(e){
+        //get the upload image
         const file = e.target.files[0];
+        //Convert the image to base 64 image
         const baseImage = await convertBase(file);
+        //Update the profile image src to base64 string
         profileImage.current.src = baseImage;
         updateProfile(auth.currentUser, {
                 photoURL: baseImage
             }).then(() => {
                 // Profile updated!
+                //Show notification to indiciate success
                 toast('Password Reset Successful')
             }).catch((error) => {
             // An error occurred
-            // ...
+            // Show toast to display error notification
                 toast('An error occured')
                 console.log(error)
         });
