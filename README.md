@@ -11,8 +11,9 @@ Quiziccal is a quiz platform created as a perfect tool for anyone looking to tes
 3. Firebase authentication
 4. Firebase firestore
 5. React toastify
+6. React router DOM
 
-#### Run code
+#### Run Script
 
 ```sh
 npm start
